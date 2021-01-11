@@ -47,7 +47,7 @@
 ; cell surroundings
 (define (surr cell)
   (map
-   (lambda (x) (list (+ (car cell) (car x)) (+ (cadr cell) (cadr x))))
+   (lambda (x) (list (modulo (+ (car cell) (car x)) 50) (modulo (+ (cadr cell) (cadr x)) 50))) ; modulo makes the game board "circular" (crossing edges will not leave the board)
    surr-matrix))
 
 ; cell neighbors (living cells around)
