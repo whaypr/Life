@@ -90,6 +90,8 @@
 
 ; -----------------------------------------
 
-; returns a list of living cells in the next generation
-(define (next-gen state)
-  (append (survivors state) (newborns state)))
+; returns a list of living cells in the n-th generation
+(define (next-gen state [steps 1])
+  (if (= steps 0)
+      state
+      (next-gen (append (survivors state) (newborns state)) (- steps 1))))
