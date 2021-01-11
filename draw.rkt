@@ -2,6 +2,7 @@
 
 (require 2htdp/universe
          2htdp/image
+         "config.rkt"
          "gol.rkt"
          "demos.rkt")
 
@@ -14,21 +15,23 @@
 
 ; draw function creating visualization of the current game state
 (define (draw state)
-  (define SCALE 10)
-  (define BOX (square SCALE "solid" "black"))
+  (define BOX (square BRD-SCALE "solid" BOX-COLOR))
   (for*/fold ([img (empty-scene
-                    (* SCALE 50)
-                    (* SCALE 50))])
+                    (* BRD-SCALE BRD-WIDTH)
+                    (* BRD-SCALE BRD-HEIGHT))])
              ([i state])
              (place-image BOX
-                          (+ (/ SCALE 2) 0.5 (* (car i) SCALE))
-                          (+ (/ SCALE 2) 0.5 (* (cadr i) SCALE))
+                          (+ (/ BRD-SCALE 2) 0.5 (* (car i) BRD-SCALE))
+                          (+ (/ BRD-SCALE 2) 0.5 (* (cadr i) BRD-SCALE))
                           img)))
 
 ; shift object from the top left corner to have more space
-(define shifted (map (lambda (x) (list (+ 10 (car x)) (+ 10 (cadr x)))) d-glider-gun))
+(define shifted
+  (map
+   (lambda (x) (list (+ 10 (car x)) (+ 10 (cadr x))))
+   d-glider-gun))
 
 ; main draw function operating whole process
 (big-bang shifted
-  [on-tick next-gen 0.1]
+  [on-tick next-gen TICK-DURATION]
   [on-draw draw])

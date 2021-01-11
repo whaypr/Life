@@ -2,6 +2,8 @@
 
 (provide next-gen)
 
+(require "config.rkt")
+
 ;  ----------  +-----------+  ----------  ;
 ;  ----------  |  HELPERS  |  ----------  ;
 ;  ----------  +-----------+  ----------  ;
@@ -47,7 +49,7 @@
 ; cell surroundings
 (define (surr cell)
   (map
-   (lambda (x) (list (modulo (+ (car cell) (car x)) 50) (modulo (+ (cadr cell) (cadr x)) 50))) ; modulo makes the game board "circular" (crossing edges will not leave the board)
+   (lambda (x) (list (modulo (+ (car cell) (car x)) BRD-WIDTH) (modulo (+ (cadr cell) (cadr x)) BRD-HEIGHT))) ; modulo makes the game board "circular" (crossing edges will not leave the board)
    surr-matrix))
 
 ; cell neighbors (living cells around)
