@@ -4,10 +4,6 @@
 
 (require "config.rkt")
 
-;  ----------  +-----------+  ----------  ;
-;  ----------  |  HELPERS  |  ----------  ;
-;  ----------  +-----------+  ----------  ;
-
 (define (my-len list)
   (if (null? list)
       0
@@ -32,7 +28,6 @@
     [(equal? item (car list)) (+ 1 (occur item (cdr list)))] ; if in, add 1 and move to another list member
     [#t (occur item (cdr list))])) ; if not, just move
 
-
 ;  ----------  +-----------+  ----------  ;
 ;  ----------  |  G  O  L  |  ----------  ;
 ;  ----------  +-----------+  ----------  ;
@@ -49,7 +44,7 @@
 ; cell surroundings
 (define (surr cell)
   (map
-   (lambda (x) (list (modulo (+ (car cell) (car x)) BRD-WIDTH) (modulo (+ (cadr cell) (cadr x)) BRD-HEIGHT))) ; modulo makes the game board "circular" (crossing edges will not leave the board)
+   (lambda (x) (list (modulo (+ (car cell) (car x)) BRD-WIDTH) (modulo (+ (cadr cell) (cadr x)) BRD-HEIGHT))) ; modulo makes the boundary periodic
    surr-matrix))
 
 ; cell neighbors (living cells around)
@@ -67,13 +62,13 @@
     (if (null? state)
         null
         (my-append
-         (filter (lambda (x) (not (member? x orig-state))) (surr (car state))) ; takes surroundings of cell on head and adds all dead cells from it
+         (filter (lambda (x) (not (member? x orig-state))) (surr (car state))) ; take surroundings of cell on head and add all dead cells from it
          (nbors-all-inner (cdr state)))))
   (nbors-all-inner orig-state))
 
 ; -----------------------------------------
 
-; returns a list of currently alive cells which will also remain alive in the next generation
+; return a list of currently alive cells which will also remain alive in the next generation
 (define (survivors orig-state)
   (define (survivors-inner state)
     (cond
@@ -83,7 +78,7 @@
       [#t (survivors-inner (cdr state))]))
   (survivors-inner orig-state))
 
-; returns a list of currently dead cells which will become alive in the next generation
+; return a list of currently dead cells which will become alive in the next generation
 (define (newborns state)
   (define (newborns-inner cells)
     (if (null? cells)
@@ -93,7 +88,7 @@
 
 ; -----------------------------------------
 
-; returns a list of living cells in the n-th generation
+; return a list of living cells in the n-th generation
 (define (next-gen state [steps 1])
   (if (= steps 0)
       state

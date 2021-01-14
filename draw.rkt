@@ -10,10 +10,7 @@
 ;  ----------  |  D R A W  |  ----------  ;
 ;  ----------  +-----------+  ----------  ;
 
-; for inspiration for draw function thanks to:
-; https://github.com/jeapostrophe/exp/blob/master/life.rkt
-
-; draw function creating visualization of the current game state
+; create visualization of the current game state
 (define (draw state)
   (define BOX (square BRD-SCALE "solid" BOX-COLOR))
   (for*/fold ([img (empty-scene
@@ -25,7 +22,7 @@
                           (+ (/ BRD-SCALE 2) 0.5 (* (cadr i) BRD-SCALE))
                           img)))
 
-; main draw function operating whole process
+; main draw function operating the whole process
 (big-bang (append s-glider-gun (s-shift s-eater 50 36))
   [on-tick next-gen TICK-DURATION]
   [on-draw draw])
