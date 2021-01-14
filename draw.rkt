@@ -15,7 +15,8 @@
   (define BOX (square BRD-SCALE "solid" BOX-COLOR))
   (for*/fold ([img (empty-scene
                     (* BRD-SCALE BRD-WIDTH)
-                    (* BRD-SCALE BRD-HEIGHT))])
+                    (* BRD-SCALE BRD-HEIGHT)
+                    BRD-BCG)])
              ([i state])
              (place-image BOX
                           (+ (/ BRD-SCALE 2) 0.5 (* (car i) BRD-SCALE))

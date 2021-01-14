@@ -6,12 +6,13 @@
 ;  ----------  |  C O N F  |  ----------  ;
 ;  ----------  +-----------+  ----------  ;
 
-(define BRD-WIDTH 50)
-(define BRD-HEIGHT 50)
 ; size
+(define BRD-WIDTH 80)
+(define BRD-HEIGHT 80)
 (define BRD-SCALE 10)
 
-(define BOX-COLOR "black")
 ;colors
+(define BRD-BCG "black")
+(define BOX-COLOR "orange")
 
-(define TICK-DURATION 0.1)
+(define TICK-DURATION 0.05) ; smaller number = higher speed
