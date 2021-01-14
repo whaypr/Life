@@ -4,16 +4,6 @@
 
 (require "config.rkt")
 
-(define (my-len list)
-  (if (null? list)
-      0
-      (+ 1 (my-len (cdr list)))))
-
-(define (my-append A B)
-  (if (null? A)
-      B
-      (cons (car A) (my-append (cdr A) B))))
-
 ; is item a member of the list?
 (define (member? item list)
   (cond
@@ -61,7 +51,7 @@
   (define (nbors-all-inner state)
     (if (null? state)
         null
-        (my-append
+        (append
          (filter (lambda (x) (not (member? x orig-state))) (surr (car state))) ; take surroundings of cell on head and add all dead cells from it
          (nbors-all-inner (cdr state)))))
   (nbors-all-inner orig-state))
@@ -73,7 +63,7 @@
   (define (survivors-inner state)
     (cond
       [(null? state) null]
-      [(let ((around (my-len (nbors (car state) orig-state)))) (or (= around 2) (= around 3)))
+      [(let ((around (length (nbors (car state) orig-state)))) (or (= around 2) (= around 3)))
        (cons (car state) (survivors-inner (cdr state)))]
       [#t (survivors-inner (cdr state))]))
   (survivors-inner orig-state))
