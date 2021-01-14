@@ -4,7 +4,7 @@
          2htdp/image
          "config.rkt"
          "gol.rkt"
-         "demos.rkt")
+         "lexicon.rkt")
 
 ;  ----------  +-----------+  ----------  ;
 ;  ----------  |  D R A W  |  ----------  ;
@@ -25,13 +25,7 @@
                           (+ (/ BRD-SCALE 2) 0.5 (* (cadr i) BRD-SCALE))
                           img)))
 
-; shift object from the top left corner to have more space
-(define shifted
-  (map
-   (lambda (x) (list (+ 10 (car x)) (+ 10 (cadr x))))
-   d-glider-gun))
-
 ; main draw function operating whole process
-(big-bang shifted
+(big-bang (append s-glider-gun (s-shift s-eater 50 36))
   [on-tick next-gen TICK-DURATION]
   [on-draw draw])

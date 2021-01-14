@@ -2,7 +2,7 @@
 
 (require test-engine/racket-tests
          "gol.rkt"
-         "demos.rkt")
+         "lexicon.rkt")
 
 ;  ----------  +-----------+  ----------  ;
 ;  ----------  |   TESTS   |  ----------  ;
