@@ -11,7 +11,7 @@
 (define BRD-HEIGHT 80)
 (define BRD-SCALE 10)
 
-;colors
+; colors
 (define BRD-BCG "black")
 (define BOX-COLOR "orange")
 

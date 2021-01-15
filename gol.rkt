@@ -5,11 +5,11 @@
 (require "config.rkt")
 
 ; is item a member of the list?
-(define (member? item list)
+(define (member? item lst)
   (cond
-    [(null? list) #f]
-    [(equal? item (car list)) #t]
-    [#t (member? item (cdr list))]))
+    [(null? lst) #f]
+    [(equal? item (car lst)) #t]
+    [#t (member? item (cdr lst))]))
 
 ; number of occurences of the item in the list
 (define (occur item list)
@@ -38,13 +38,13 @@
    surr-matrix))
 
 ; cell neighbors (living cells around)
-(define (nbors cel state)
+(define (nbors cell state)
   (define (nbors-inner nbors state)
     (cond
       [(or (null? nbors) (null? state)) null]
       [(member? (car nbors) state) (cons (car nbors) (nbors-inner (cdr nbors) state))]
       [#t (nbors-inner (cdr nbors) state)]))
-  (nbors-inner (surr cel) state))
+  (nbors-inner (surr cell) state))
 
 ; all neighbors of all living cells (duplicates are desirable)
 (define (nbors-all orig-state)
