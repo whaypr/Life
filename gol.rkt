@@ -11,12 +11,13 @@
     [(equal? item (car lst)) #t]
     [#t (member? item (cdr lst))]))
 
-; number of occurences of the item in the list
-(define (occur item list)
+; a compare function for sorting coords
+(define (list< lstA lstB)
   (cond
-    [(null? list) 0]
-    [(equal? item (car list)) (+ 1 (occur item (cdr list)))] ; if in, add 1 and move to another list member
-    [#t (occur item (cdr list))])) ; if not, just move
+    [(equal? lstA lstB) #t]
+    [(< (car lstA) (car lstB)) #t]
+    [(> (car lstA) (car lstB)) #f]
+    [#t (list< (cdr lstA) (cdr lstB))]))
 
 ;  ----------  +-----------+  ----------  ;
 ;  ----------  |  G  O  L  |  ----------  ;
@@ -70,11 +71,25 @@
 
 ; return a list of currently dead cells which will become alive in the next generation
 (define (newborns state)
-  (define (newborns-inner cells)
-    (if (null? cells)
+  (define (newborns-inner-wrapper lst)
+    (define (newborns-inner lst item occ)
+      (cond
+        [(null? (cdr lst))
+         (if (= occ 3)
+             (cons item null)
+             null)]
+        [(equal? item (cadr lst))
+         (if (>= occ 3)
+             (newborns-inner (cdr lst) (cadr lst) 4)
+             (newborns-inner (cdr lst) item (+ occ 1)))]
+        [#t
+         (if (= occ 3)
+             (cons item (newborns-inner (cdr lst) (cadr lst) 1))
+             (newborns-inner (cdr lst) (cadr lst) 1))]))
+    (if (null? lst)
         null
-        (filter (lambda (c) (= (occur c cells) 3)) cells)))
-  (remove-duplicates (newborns-inner (nbors-all state)))) ; each new cell will occur only once
+        (newborns-inner lst (car lst) 1)))
+  (newborns-inner-wrapper (sort (nbors-all state) list<)))
 
 ; -----------------------------------------
 
