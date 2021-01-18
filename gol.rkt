@@ -71,25 +71,24 @@
 
 ; return a list of currently dead cells which will become alive in the next generation
 (define (newborns state)
-  (define (newborns-inner-wrapper lst)
-    (define (newborns-inner lst item occ)
-      (cond
-        [(null? (cdr lst))
-         (if (= occ 3)
-             (cons item null)
-             null)]
-        [(equal? item (cadr lst))
-         (if (>= occ 3)
-             (newborns-inner (cdr lst) (cadr lst) 4)
-             (newborns-inner (cdr lst) item (+ occ 1)))]
-        [#t
-         (if (= occ 3)
-             (cons item (newborns-inner (cdr lst) (cadr lst) 1))
-             (newborns-inner (cdr lst) (cadr lst) 1))]))
+  (define (newborns-inner lst item occ)
+    (cond
+      [(null? (cdr lst))
+       (if (= occ 3)
+           (cons item null)
+           null)]
+      [(equal? item (cadr lst))
+       (if (>= occ 3)
+           (newborns-inner (cdr lst) (cadr lst) 4)
+           (newborns-inner (cdr lst) item (+ occ 1)))]
+      [#t
+       (if (= occ 3)
+           (cons item (newborns-inner (cdr lst) (cadr lst) 1))
+           (newborns-inner (cdr lst) (cadr lst) 1))]))
+  (let ((lst (sort (nbors-all state) list<)))
     (if (null? lst)
         null
-        (newborns-inner lst (car lst) 1)))
-  (newborns-inner-wrapper (sort (nbors-all state) list<)))
+        (newborns-inner lst (car lst) 1))))
 
 ; -----------------------------------------
 
